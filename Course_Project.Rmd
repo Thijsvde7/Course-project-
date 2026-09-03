@@ -1,0 +1,50 @@
+---
+title: "Course project powerpoint"
+author: "Thijs van den Ende"
+date: "2026-09-03"
+output: powerpoint_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Input example
+#### Variables:
+- Explanatory variables: wt, hp
+- Dependent variable: mpg
+- Include interaction terms
+
+Dependent variable can not be in the explanatory variables. 
+After choosing variables, click submit button to generate the model.
+
+```{r, echo = FALSE}
+mtcars <- mtcars
+model <- lm(mpg ~ wt * hp, data = mtcars)
+```
+
+## Summary statistics of the generated model
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(broom)
+library(flextable)
+library(tidyverse)
+tabel_data <- tidy(model)
+flextable(tabel_data) %>%
+  fontsize(size = 9, part = "all") %>%
+  autofit()
+```
+
+## Plots of the model generated
+```{r, echo = FALSE}
+par(mfrow = c(2,2))
+plot(model)
+```
+
+## Linear relationship between two variables
+```{r, echo = FALSE, fig.align = 'center', fig.cap = "This plot can only be shown with one predictor"}
+plot(mpg ~ wt, data = mtcars, xlab = "wt", ylab = "mpg", main = "Relation between wt and mpg", 
+     pch = 19, col = "darkblue")
+model2 <- lm(mpg ~ wt, data = mtcars)
+    abline(model2, col = "red", lwd = 2)
+```
